@@ -31,18 +31,15 @@
     sudo /usr/pgsql-15/bin/postgresql-15-setup initdb 
     ```
     
-    ---
-    
-    ***untuk menjalankan perintah inisialisasi secara manual dapat dilakukan dengan perintah berikut***
-    
-    ```
-    sudo chown -R postgres:postgres /postgresql/database/pgdata_b/
-    sudo chmod 700 /postgresql/database/pgdata_b/
-    sudo su - postgres
-    /usr/pgsql-15/bin/initdb -D /postgresql/database/pgdata_b/ -U postgres
-    ```
-    
-    ![!image.png](https://github.com/setiawanidp/dba-notes/blob/main/postgresql/images/inisialisasi%20postgresql%20manual.png)
+    >***untuk menjalankan perintah inisialisasi secara manual dapat dilakukan dengan perintah berikut***
+    >```
+    >sudo chown -R postgres:postgres /postgresql/database/pgdata_b/
+    >sudo chmod 700 /postgresql/database/pgdata_b/
+    >sudo su - postgres
+    >/usr/pgsql-15/bin/initdb -D /postgresql/database/pgdata_b/ -U postgres
+    >```
+    >
+    >![!image.png](https://github.com/setiawanidp/dba-notes/blob/main/postgresql/images/inisialisasi%20postgresql%20manual.png)
     
 5. Jika sudah berhasil jalankan perintah berikut untuk memulai service postgresql
     
