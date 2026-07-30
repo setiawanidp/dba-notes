@@ -33,7 +33,7 @@
     
     ---
     
-    Untuk menjalankan perintah inisialisasi secara manual dapat dilakukan dengan perintah berikut
+    ***untuk menjalankan perintah inisialisasi secara manual dapat dilakukan dengan perintah berikut***
     
     ```
     sudo chown -R postgres:postgres /postgresql/database/pgdata_b/
@@ -53,7 +53,7 @@
     
     ---
     
-    *start service dengan inisialisasi manual
+    ***start service dengan inisialisasi manual***
     
     ```
     /usr/pgsql-15/bin/pg_ctl start -D /postgresql/database/pgdata_b/ -l /postgresql/database/pgdata_b/log-b.log
