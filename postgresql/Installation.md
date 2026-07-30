@@ -38,7 +38,7 @@
     /usr/pgsql-15/bin/initdb -D /postgresql/database/pgdata_b/ -U postgres
     ```
     
-    !image.png
+    ![!image.png](https://github.com/setiawanidp/dba-notes/blob/main/postgresql/images/inisialisasi%20postgresql%20manual.png)
     
 5. Jika sudah berhasil jalankan perintah berikut untuk memulai service postgresql
     
@@ -55,7 +55,7 @@
     /usr/pgsql-15/bin/pg_ctl start -D /postgresql/database/pgdata_b/ -l /postgresql/database/pgdata_b/log-b.log
     ```
     
-    !image.png
+    ![!image.png](https://github.com/setiawanidp/dba-notes/blob/main/postgresql/images/start%20postgresql%20manual.png)
     
 6. Cek service database dengan menjalankan perintah berikut
     
@@ -64,3 +64,5 @@
     ```
     
     Jika tampil seperti tanda berikut, service database sudah sukses berjalan
+   
+   ![cekservice.png](https://github.com/setiawanidp/dba-notes/blob/main/postgresql/images/cek%20service%20postgresql%20auto.png)
