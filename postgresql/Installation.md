@@ -1,4 +1,8 @@
-# Installation Postgresql 15 di linux centos
+<div align="center"> 
+   
+# Installation Postgresql 15 di linux centos 
+
+</div>
 
 1. Buka browser lalu pergi ke website postgresql cari halaman download. Pada kasus ini saya menggunakan link download berikut https://download.postgresql.org/pub/repos/yum/15/redhat/rhel-9-x86_64/    
 
