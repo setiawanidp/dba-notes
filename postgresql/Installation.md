@@ -1,6 +1,6 @@
 <div align="center"> 
    
-# Installation Postgresql 15 di linux centos 
+# Installation Postgresql 15 di Linux centOS 
 
 </div>
 
@@ -30,7 +30,7 @@
     ```
     sudo /usr/pgsql-15/bin/postgresql-15-setup initdb 
     ```
-    
+
     >***untuk menjalankan perintah inisialisasi secara manual dapat dilakukan dengan perintah berikut***
     >```
     >sudo chown -R postgres:postgres /postgresql/database/pgdata_b/
@@ -48,15 +48,13 @@
     sudo systemctl enable postgresql-15
     ```
     
-    ---
-    
-    ***start service dengan inisialisasi manual***
-    
-    ```
-    /usr/pgsql-15/bin/pg_ctl start -D /postgresql/database/pgdata_b/ -l /postgresql/database/pgdata_b/log-b.log
-    ```
-    
-    ![!image.png](https://github.com/setiawanidp/dba-notes/blob/main/postgresql/images/start%20postgresql%20manual.png)
+    >***start service dengan inisialisasi manual***
+    >
+    >```
+    >/usr/pgsql-15/bin/pg_ctl start -D /postgresql/database/pgdata_b/ -l /postgresql/database/pgdata_b/log-b.log
+    >```
+    >
+    >![!image.png](https://github.com/setiawanidp/dba-notes/blob/main/postgresql/images/start%20postgresql%20manual.png)
     
 6. Cek service database dengan menjalankan perintah berikut
     
@@ -64,6 +62,6 @@
     sudo systemctl status postgresql-15
     ```
     
-    Jika tampil seperti tanda berikut, service database sudah sukses berjalan
+    Jika tampil seperti gambar berikut, service database sudah sukses berjalan
    
    ![cekservice.png](https://github.com/setiawanidp/dba-notes/blob/main/postgresql/images/cek%20service%20postgresql%20auto.png)
