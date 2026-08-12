@@ -145,25 +145,3 @@ DROP SCHEMA sales CASCADE;
 | JOIN lintas schema (dalam 1 database) | N/A | Bisa langsung |
 | User/role | Per instance, bisa dibatasi per database | Global di level cluster, permission diatur per database/schema |
 | Satu koneksi bisa lihat semua "database"? | Ya (dengan `USE` untuk pindah) | Tidak — satu koneksi terikat satu database |
-
----
-
-## 6. Latihan Praktik yang Disarankan
-
-Setelah membaca materi ini, coba praktikkan urutan berikut di cluster yang sudah kamu install:
-
-1. Cek database bawaan: `\l` — perhatikan ada `postgres`, `template0`, `template1`.
-2. Buat database baru: `CREATE DATABASE latihan_db;`
-3. Connect ke sana: `\c latihan_db`
-4. Cek schema default: `\dn` — harusnya cuma ada `public`.
-5. Buat schema baru: `CREATE SCHEMA hr;`
-6. Buat tabel di masing-masing schema (`public.pegawai` dan `hr.gaji`), lalu coba `JOIN` keduanya — buktikan ini berhasil karena masih satu database.
-7. Buat database kedua (`latihan_db2`), lalu coba akses tabel dari `latihan_db` saat connect ke `latihan_db2` — buktikan ini **gagal**, untuk merasakan langsung isolasi antar database.
-
----
-
-## 7. Yang Bisa Dipelajari Selanjutnya
-
-- Roles & privileges (GRANT/REVOKE, ownership, role inheritance) — krusial karena role di PostgreSQL bersifat *global* di level cluster, bukan per-database seperti user MySQL.
-- Tablespace — objek global lain yang mirip peran `datadir` per-storage di MySQL.
-- `template0` vs `template1` — kenapa ada dua template dan kapan pakai yang mana saat `CREATE DATABASE`.
