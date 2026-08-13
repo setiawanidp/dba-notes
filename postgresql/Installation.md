@@ -34,8 +34,7 @@
    
     >***untuk menjalankan perintah inisialisasi secara manual dan menginstal datadir di directory yang berbeda dapat dilakukan dengan perintah berikut***
     >```
-    >cp -r /var/lib/pgsql/15/data /postgresql/database/
-    >mv /postgresql/database/data/ /postgresql/database/pgdata_b/
+    >mkdir /postgresql/database/pgdata_b/
     >sudo chown -R postgres:postgres /postgresql/database/pgdata_b/
     >sudo chmod 700 /postgresql/database/pgdata_b/
     >sudo su - postgres
