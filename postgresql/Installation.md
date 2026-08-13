@@ -30,18 +30,22 @@
     ```
     sudo /usr/pgsql-15/bin/postgresql-15-setup initdb 
     ```
-
-    >***untuk menjalankan perintah inisialisasi secara manual dapat dilakukan dengan perintah berikut***
+   Setetelah di inisialisasi maka postgresql akan membuat struktur datadir di directory `/var/lib/pgsql/15/data`
+   
+    >***untuk menjalankan perintah inisialisasi secara manual dan menginstal datadir di directory yang berbeda dapat dilakukan dengan perintah berikut***
     >```
+    >cp -r /var/lib/pgsql/15/data /postgresql/database/
+    >mv /postgresql/database/data/ /postgresql/database/pgdata_b/
     >sudo chown -R postgres:postgres /postgresql/database/pgdata_b/
     >sudo chmod 700 /postgresql/database/pgdata_b/
     >sudo su - postgres
     >/usr/pgsql-15/bin/initdb -D /postgresql/database/pgdata_b/ -U postgres
     >```
-    >
     >![!image.png](https://github.com/setiawanidp/dba-notes/blob/main/postgresql/images/inisialisasi%20postgresql%20manual.png)
+
+   Masuk ke dalam directory `/postgresql/database/pgdata_b/` edit file `postgresql.conf` dibagian `#port = 5432` hilangkan tanda #
     
-5. Jika sudah berhasil jalankan perintah berikut untuk memulai service postgresql
+6. Jika sudah berhasil jalankan perintah berikut untuk memulai service postgresql
     
     ```
     sudo systemctl start postgresql-15
@@ -56,7 +60,7 @@
     >
     >![!image.png](https://github.com/setiawanidp/dba-notes/blob/main/postgresql/images/start%20postgresql%20manual.png)
     
-6. Cek service database dengan menjalankan perintah berikut
+7. Cek service database dengan menjalankan perintah berikut
     
     ```
     sudo systemctl status postgresql-15
