@@ -70,9 +70,9 @@ Karena berbasis WAL yang sama dengan mekanisme crash recovery, ini disebut **phy
 
 ## 4. Praktik: Setup Streaming Replication (Primary → 1 Replica)
 
-Anggap kita punya 2 server:
-- **Primary**: `192.168.1.10`
-- **Replica**: `192.168.1.20`
+Anggap kita punya 2 cluster di 1 server:
+- **Port Primary**: `5433`
+- **Port Replica**: `5434`
 
 ### Langkah 1 — Konfigurasi di Primary
 
@@ -88,18 +88,24 @@ hot_standby = on             # izinkan replica menerima query SELECT
 
 > `wal_level = replica` ini setara dengan mengaktifkan binlog di MySQL — tanpa ini, WAL tidak menyimpan cukup informasi untuk replikasi.
 
+<img width="823" height="339" alt="Screenshot_19" src="https://github.com/user-attachments/assets/4501592d-05c8-4962-b864-57121f8b9d68" />
+
 Edit `pg_hba.conf` supaya replica boleh konek dengan mode replikasi:
 
 ```conf
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
-host    replication     replikator      192.168.1.20/32         scram-sha-256
+host    replication     replikator      127.0.0.1/32         scram-sha-256
 ```
+
+<img width="716" height="172" alt="Screenshot_18" src="https://github.com/user-attachments/assets/12122e9c-af78-48f0-9615-dc8a16b5b1de" />
 
 Buat user khusus untuk replikasi (jangan pakai superuser biasa):
 
 ```sql
 CREATE ROLE replikator WITH REPLICATION LOGIN PASSWORD 'password_kuat';
 ```
+
+<img width="710" height="207" alt="Screenshot_20" src="https://github.com/user-attachments/assets/98511188-8cca-42b9-b6c4-74eb23fc01b2" />
 
 Restart PostgreSQL di primary supaya `postgresql.conf` yang butuh restart (seperti `wal_level`, `max_wal_senders`) diterapkan:
 
@@ -115,7 +121,7 @@ Ini seperti mengambil "snapshot awal" data sebelum replica mulai streaming WAL. 
 sudo systemctl stop postgresql          # pastikan data directory kosong/tidak dipakai
 rm -rf /var/lib/postgresql/16/main/*    # kosongkan data directory replica (sesuaikan path & versi)
 
-pg_basebackup -h 192.168.1.10 -D /var/lib/postgresql/16/main \
+/usr/pgsql-15/bin/pg_basebackup -h 127.0.0.1 -p5433 -D /var/lib/postgresql/16/main \
   -U replikator -P -R -X stream -C -S replica_slot1
 ```
 
@@ -240,7 +246,3 @@ Bedanya dengan streaming replication: replica tetap bisa menulis data lain, dan 
 | Failover otomatis bawaan | Ya (Group Replication/InnoDB Cluster) | Tidak, butuh tools tambahan (Patroni/repmgr) |
 | Selective replication | Perlu filter di config | Native lewat Logical Replication |
 | Slot/pencegah log terhapus | Tidak ada konsep persis sama | Replication slot |
-
----
-
-**Saran urutan belajar lanjutan:** setelah ini, materi yang cocok berikutnya adalah **backup & recovery (pg_dump, pg_basebackup, PITR dengan WAL archiving)** — karena base backup yang kamu pakai di replikasi ini sebenarnya dasar yang sama untuk Point-In-Time Recovery.
