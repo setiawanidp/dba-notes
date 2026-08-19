@@ -72,7 +72,7 @@ Karena berbasis WAL yang sama dengan mekanisme crash recovery, ini disebut **phy
 
 Anggap kita punya 2 cluster di 1 server:
 - **Port Primary**: `5433`
-- **Port Replica**: `5434`
+- **Port Replica**: `5435`
 
 ### Langkah 1 — Konfigurasi di Primary
 
@@ -121,9 +121,11 @@ Ini seperti mengambil "snapshot awal" data sebelum replica mulai streaming WAL. 
 sudo systemctl stop postgresql          # pastikan data directory kosong/tidak dipakai
 rm -rf /var/lib/postgresql/16/main/*    # kosongkan data directory replica (sesuaikan path & versi)
 
-/usr/pgsql-15/bin/pg_basebackup -h 127.0.0.1 -p5433 -D /var/lib/postgresql/16/main \
+/usr/pgsql-15/bin/pg_basebackup -h 127.0.0.1 -p5433 -D /postgresql/database/pgdata_c \
   -U replikator -P -R -X stream -C -S replica_slot1
 ```
+
+<img width="1299" height="143" alt="Screenshot_21" src="https://github.com/user-attachments/assets/2f376860-1acc-4496-a0d3-218dcdee5231" />
 
 Penjelasan opsi-opsi penting:
 - `-D` : lokasi data directory tujuan di replica.
@@ -137,8 +139,13 @@ Penjelasan opsi-opsi penting:
 ### Langkah 3 — Nyalakan Replica
 
 ```bash
-sudo chown -R postgres:postgres /var/lib/postgresql/16/main
-sudo systemctl start postgresql
+sudo chown -R postgres:postgres /postgresql/database/pgdata_c
+sudo chmod 700 /postgresql/database/pgdata_c
+```
+Masuk ke dalam directory `/postgresql/database/pgdata_c/` edit file `postgresql.conf` dibagian `port = 5433` ganti menjadi `port = 5435`
+```bash
+sudo su - postgres
+/usr/pgsql-15/bin/initdb -D /postgresql/database/pgdata_c/ -U postgres
 ```
 
 Cek file `standby.signal` ada di data directory — keberadaan file ini yang membuat PostgreSQL tahu dirinya harus jalan sebagai **standby**, bukan primary.
@@ -152,6 +159,8 @@ SELECT client_addr, state, sync_state, replay_lag
 FROM pg_stat_replication;
 ```
 
+<img width="518" height="189" alt="Screenshot_23" src="https://github.com/user-attachments/assets/f75c7ea6-3123-4dc8-8dee-3932e44e74c7" />
+
 Di **replica**, cek statusnya:
 
 ```sql
@@ -159,7 +168,11 @@ SELECT pg_is_in_recovery();   -- harus TRUE, artinya ini memang standby
 SELECT status FROM pg_stat_wal_receiver;
 ```
 
+<img width="425" height="264" alt="Screenshot_24" src="https://github.com/user-attachments/assets/971e5f25-6f82-4eb5-9508-5657d25de341" />
+
 Coba insert data di primary, lalu `SELECT` di replica — datanya harus muncul dalam hitungan detik (atau instan kalau sync).
+
+<img width="508" height="578" alt="Screenshot_25" src="https://github.com/user-attachments/assets/169865df-5870-43b9-9199-fe2ee638190a" />
 
 ---
 
